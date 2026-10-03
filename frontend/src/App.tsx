@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import PwaStatus from './components/PwaStatus';
 import About from './site/About';
 import Blog from './site/Blog';
+import ClientNotes from './site/ClientNotes';
 import Contact from './site/Contact';
 import Gallery from './site/Gallery';
 import Home from './site/Home';
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="blog" element={<Blog />} />
           <Route path="blog/:slug" element={<PostPage />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="client-notes" element={<ClientNotes />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="portal/*" element={<Suspense fallback={<div className="boot">Loading portal…</div>}><Portal /></Suspense>} />

@@ -71,6 +71,7 @@ export default function Layout() {
           </nav>
           <div className="side-foot">
             {install && <a href="#" onClick={(e) => { e.preventDefault(); install(); }} style={{ marginBottom: 10 }}><Icon name="download" /> Install portal app</a>}
+            {staff && <Link to="/client-notes" target="_blank" style={{ marginBottom: 10 }}><Icon name="file" /> Client notes (budget)</Link>}
             <Link to="/" target="_blank"><Icon name="globe" /> View public website</Link>
           </div>
         </aside>

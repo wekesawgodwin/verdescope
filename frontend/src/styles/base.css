@@ -12,3 +12,8 @@ body { font-family: 'Didact Gothic', 'Segoe UI', system-ui, sans-serif; -webkit-
 .skeleton { background: linear-gradient(90deg, #132019 0%, #192a20 50%, #132019 100%); background-size: 200% 100%; animation: sk 1.4s infinite; min-height: 200px; }
 @keyframes sk { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 .site .error-box, .portal .error-box { padding: 30px; border: 1px solid #e2735f; color: #e2735f; text-align: center; }
+
+/* Client Notes budget calculator */
+.site .form.calc { grid-template-columns: repeat(4, 1fr); margin-bottom: 30px; }
+@media (max-width: 900px) { .site .form.calc { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .site .form.calc { grid-template-columns: 1fr; } }
