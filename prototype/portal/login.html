@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — Verde-Scope Portal</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/img/brand/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body>
+<div class="login">
+  <div class="login-art">
+    <img src="../assets/img/brand/logo-full-light.png" alt="Verde-Scope Africa Limited">
+    <h1>Client &amp; Staff Portal</h1>
+    <p>Stakeholders track project progress and reports. Staff manage website content and respond to inquiries from the company mailbox.</p>
+  </div>
+  <div class="login-panel">
+    <div class="login-box">
+      <a class="back-site" href="../index.html" id="back"></a>
+      <h2>Sign in</h2>
+      <p>Use your Verde-Scope portal account.</p>
+      <form id="loginForm" novalidate>
+        <div class="field"><label for="em">Email</label><input id="em" name="email" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="pw">Password</label><input id="pw" name="password" type="password" required autocomplete="current-password"></div>
+        <div class="err" id="err" role="alert"></div>
+        <button class="btn primary block" type="submit">Sign in</button>
+      </form>
+      <div class="demo-accounts">
+        <h4>Demo accounts (one click)</h4>
+        <div id="demos"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>window.VS_ROOT = '../';</script>
+<script src="../assets/js/icons.js"></script>
+<script src="../assets/js/store.js"></script>
+<script>
+  (function () {
+    if (VS.currentUser()) { location.replace('index.html'); return; }
+    document.getElementById('back').innerHTML = icon('arrowL') + ' Back to website';
+    const demos = [
+      ['admin@verdescope.demo', 'admin123', 'Super Admin', 'Users, roles, settings, everything', 'lock'],
+      ['manager@verdescope.demo', 'manager123', 'Website Manager', 'Blog, gallery, services & company email', 'edit'],
+      ['stakeholder@verdescope.demo', 'partner123', 'Stakeholder', 'County Government of Bomet: projects & reports', 'briefcase'],
+    ];
+    const box = document.getElementById('demos');
+    box.innerHTML = demos.map(([e, p, t, s, ic], i) => `<button class="demo" data-i="${i}"><span class="ic">${icon(ic)}</span><span><b>${t}</b><small>${e} · ${p}</small><br><small>${s}</small></span></button>`).join('');
+    const go = (email, password) => {
+      const r = VS.login(email, password);
+      if (r.error) { document.getElementById('err').textContent = r.error; return; }
+      location.href = 'index.html';
+    };
+    box.addEventListener('click', (e) => { const b = e.target.closest('.demo'); if (b) { const d = demos[b.dataset.i]; go(d[0], d[1]); } });
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      if (!f.get('email') || !f.get('password')) { document.getElementById('err').textContent = 'Enter your email and password.'; return; }
+      go(f.get('email'), f.get('password'));
+    });
+  })();
+</script>
+</body>
+</html>
