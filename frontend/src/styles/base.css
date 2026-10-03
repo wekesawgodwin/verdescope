@@ -1,0 +1,14 @@
+/* Global base shared by the public site (.site) and portal (.portal). */
+html, body { margin: 0; background: #0a120d; color: #e9efe9; }
+body { font-family: 'Didact Gothic', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.site { min-height: 100vh; }
+.boot { min-height: 100vh; display: grid; place-items: center; color: #9cab9f; font-family: 'Oswald', sans-serif; letter-spacing: .2em; text-transform: uppercase; font-size: 12px; }
+
+/* PWA bits */
+.install-btn { display: inline-flex; align-items: center; gap: 8px; }
+.offline-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 300; background: #e3b341; color: #0a120d; text-align: center; font-size: 13px; padding: 6px 12px; }
+.update-bar { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 300; background: #0a120d; border: 1px solid #7cb82f; color: #e9efe9; padding: 10px 16px; display: flex; gap: 14px; align-items: center; font-size: 14px; }
+.update-bar button { background: #7cb82f; border: 0; color: #0a120d; padding: 6px 12px; cursor: pointer; font-family: 'Oswald', sans-serif; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; }
+.skeleton { background: linear-gradient(90deg, #132019 0%, #192a20 50%, #132019 100%); background-size: 200% 100%; animation: sk 1.4s infinite; min-height: 200px; }
+@keyframes sk { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.site .error-box, .portal .error-box { padding: 30px; border: 1px solid #e2735f; color: #e2735f; text-align: center; }
