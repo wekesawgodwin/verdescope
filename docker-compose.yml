@@ -1,0 +1,32 @@
+# Local full stack: docker compose up --build  ->  http://localhost:8000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: verdescope
+      POSTGRES_PASSWORD: verdescope
+      POSTGRES_DB: verdescope
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U verdescope"]
+      interval: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      args: { VITE_SHOW_DEMO_LOGINS: "true" }
+    depends_on: { db: { condition: service_healthy } }
+    environment:
+      DATABASE_URL: postgresql://verdescope:verdescope@db:5432/verdescope
+      SECRET_KEY: local-docker-secret-change-me-0123456789abcdef
+      SEED_DEMO: "true"
+      # EMAIL_PROVIDER: resend
+      # RESEND_API_KEY: re_xxx
+      # MAIL_FROM: info@yourdomain.co.ke
+    ports: ["8000:8000"]
+    volumes: [uploads:/data/uploads]
+
+volumes:
+  pgdata:
+  uploads:
