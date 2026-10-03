@@ -8,7 +8,7 @@ DEFAULT_SETTINGS = {
     "phone1": "+254 725 318 476",
     "phone2": "+254 733 450 975",
     "public_email": "verdescopeafricaltd@gmail.com",
-    "mail_from": "info@verdescopeafrica.co.ke",
+    "mail_from": "info@verdescope.co.ke",
     "mail_signature": "Kind regards,\nVerde-Scope Africa Limited\n5th Floor, One Africa Place, Westlands, Nairobi\n+254 725 318 476 | +254 733 450 975",
     "address": "5th Floor, One Africa Place, Chiromo Road / Rhapta Road junction, Westlands, Nairobi",
     "postal": "P.O. Box 451-00610, Nairobi, Kenya",

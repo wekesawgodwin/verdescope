@@ -83,7 +83,7 @@ Demo accounts (seeded when `SEED_DEMO=true`; the one-click buttons appear in dev
    | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | first admin account (production) |
    | `VITE_SHOW_DEMO_LOGINS` | `true` only on a demo environment |
    | `EMAIL_PROVIDER` | `resend` (recommended on Railway) or `smtp` |
-   | `MAIL_FROM` | verified sender, e.g. `info@verdescopeafrica.co.ke` |
+   | `MAIL_FROM` | verified sender, e.g. `info@verdescope.co.ke` |
    | `RESEND_API_KEY` | when using Resend |
    | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | when using SMTP (Railway allows outbound SMTP on Pro plans only) |
 
@@ -107,7 +107,7 @@ Choose **one** deploy path:
 
 ## Email setup (company mailbox)
 
-1. Get the company domain (e.g. `verdescopeafrica.co.ke`). The address currently shown in settings is a placeholder.
+1. Get the company domain `verdescope.co.ke` (available on KeNIC as of 3 Oct 2026; see the Client Notes page for costs).
 2. Pick a provider:
    - **Resend:** verify the domain (DNS records), create an API key, then set `EMAIL_PROVIDER=resend`, `RESEND_API_KEY` and `MAIL_FROM`.
    - **SMTP** (Google Workspace / Microsoft 365 / Zoho): set `EMAIL_PROVIDER=smtp` plus the `SMTP_*` variables. Use an app password.
