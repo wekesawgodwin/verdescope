@@ -16,6 +16,7 @@ ignore = ["B008"]  # FastAPI Depends() in defaults is idiomatic
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.ruff.lint.isort]
