@@ -105,9 +105,9 @@ export default function Home() {
           <div className="grid g3">{site ? services.slice(0, 3).map((s) => <ServiceCard key={s.id} s={s} />) : <Skeleton />}</div>
           <div className="grid g3" style={{ marginTop: 30 }}>
             {services.slice(3).map((s) => <ServiceCard key={s.id} s={s} />)}
-            <div className="svc reveal" style={{ justifyContent: 'center', background: 'var(--forest)' }}>
+            <div className="svc reveal dark-ctx" style={{ justifyContent: 'center', background: 'var(--forest)' }}>
               <h3>Need a tailored team?</h3>
-              <p style={{ color: '#c3cfc6' }}>Our experts combine environmental science, engineering, economics, GIS and social science.</p>
+              <p style={{ color: 'var(--muted)' }}>Our experts combine environmental science, engineering, economics, GIS and social science.</p>
               <Link className="btn" to="/contact">Talk to us <Icon name="arrowR" /></Link>
             </div>
           </div>
