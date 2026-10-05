@@ -11,7 +11,7 @@ from sqlalchemy import text
 
 from .config import DEV_SECRET, get_settings
 from .db import engine
-from .routers import admin, auth, content, mail, portal, public
+from .routers import admin, auth, content, mail, portal, public, staff
 
 settings = get_settings()
 logging.basicConfig(level=logging.INFO)
@@ -42,7 +42,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 if not settings.is_production:
     app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
-for r in (public.router, auth.router, content.router, mail.router, admin.router, portal.router):
+for r in (public.router, auth.router, content.router, mail.router, admin.router, portal.router, staff.router):
     app.include_router(r, prefix="/api")
 
 

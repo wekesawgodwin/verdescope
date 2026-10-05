@@ -76,6 +76,23 @@ class ServiceOut(ORM):
     image: str
 
 
+class StaffIn(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    role: str = Field(min_length=1, max_length=300)
+    bio: str = ""
+    years: str = Field("", max_length=20)
+    sort_order: int = 0
+
+
+class StaffOut(ORM):
+    id: int
+    name: str
+    role: str
+    bio: str
+    years: str
+    sort_order: int
+
+
 class ExpertiseOut(ORM):
     id: int
     sector: str

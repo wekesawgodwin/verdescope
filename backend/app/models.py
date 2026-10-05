@@ -44,6 +44,17 @@ class Service(Base):
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
 
 
+class TeamMember(Base):
+    """Internal staff directory for the portal. Never returned by public endpoints."""
+    __tablename__ = "team_members"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(200))
+    role: Mapped[str] = mapped_column(String(300))
+    bio: Mapped[str] = mapped_column(Text, default="")
+    years: Mapped[str] = mapped_column(String(20), default="")
+    sort_order: Mapped[int] = mapped_column(Integer, default=0)
+
+
 class Expertise(Base):
     """Technical expertise the firm offers, grouped by sector (no individual staff are published)."""
     __tablename__ = "expertise"

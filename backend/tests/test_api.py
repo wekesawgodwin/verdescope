@@ -12,7 +12,7 @@ def test_public_site_content(client):
     site = r.json()
     assert len(site["services"]) == 5
     assert len(site["expertise"]) == 8 and all(x["disciplines"] for x in site["expertise"])
-    assert "team" not in site
+    assert site["team"] == []  # staff are internal; empty list keeps older cached app versions working
     # Individual staff must not be published anywhere in the public content
     for name in ("Kiprotich", "Muthura", "Musonye", "Nzyuko", "Kapkwany", "Manyulu", "Zuber", "Anis"):
         assert name not in r.text
@@ -133,3 +133,17 @@ def test_dashboard_and_settings(client, admin):
     assert s["mail_from"] == "hello@verdescope.co.ke" and "bogus" not in s
     client.post("/api/public/track", json={"page": "home"})
     assert client.get("/api/dashboard", headers=admin).json()["visits"][-1]["value"] >= 1
+
+
+def test_staff_directory_is_portal_only(client, admin, manager, stakeholder):
+    assert client.get("/api/staff").status_code == 401
+    assert client.get("/api/staff", headers=stakeholder).status_code == 403
+    staff = client.get("/api/staff", headers=manager).json()
+    assert len(staff) == 8 and staff[0]["name"] == "Kiprotich"
+
+    m = client.post("/api/staff", headers=admin, json={"name": "New Specialist", "role": "GIS Analyst", "years": "5+"}).json()
+    upd = client.put(f"/api/staff/{m['id']}", headers=manager, json={"name": "New Specialist", "role": "Senior GIS Analyst", "years": "6+"}).json()
+    assert upd["role"] == "Senior GIS Analyst"
+    # Never leaks onto the public site
+    assert "New Specialist" not in client.get("/api/public/site").text
+    assert client.delete(f"/api/staff/{m['id']}", headers=admin).status_code == 204

@@ -21,6 +21,9 @@ def site(db: Session = Depends(get_db)):
         "settings": {k: s[k] for k in PUBLIC_KEYS},
         "services": [ServiceOut.model_validate(x) for x in db.scalars(select(Service).order_by(Service.sort_order))],
         "expertise": [ExpertiseOut.model_validate(x) for x in db.scalars(select(Expertise).order_by(Expertise.sort_order))],
+        # Staff are internal only. Kept as an empty list so installed app versions cached before
+        # this change (which still read site.team) keep rendering instead of crashing.
+        "team": [],
         "assignments": [AssignmentOut.model_validate(x) for x in db.scalars(select(Assignment).order_by(Assignment.year.desc(), Assignment.id))],
     }
 
