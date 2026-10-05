@@ -41,7 +41,7 @@ html {scroll-behavior: smooth;}
 .site .sr-only {position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);}
 .site .site-header {position: fixed; inset: 0 0 auto; z-index: 50; transition: background .35s, padding .35s, border-color .35s; padding: 22px 0; border-bottom: 1px solid transparent;}
 /* Never add backdrop-filter/transform/filter to .site-header: it would trap the fixed mobile menu inside the header. */
-.site .site-header.solid, .site .site-header.always {background: rgba(250, 246, 238, .97); box-shadow: 0 6px 24px rgba(74, 58, 30, .07); padding: 12px 0; border-color: var(--line);}
+.site .site-header.solid, .site .site-header.always {background: var(--deep); box-shadow: 0 6px 24px rgba(20, 24, 14, .22); padding: 12px 0; border-color: var(--line);}
 .site .site-header .wrap {display: flex; align-items: center; justify-content: space-between; gap: 24px;}
 .site .brand {display: flex; align-items: center; gap: 12px;}
 .site .brand img {height: 52px; width: auto; transition: height .35s;}
@@ -370,7 +370,7 @@ html {scroll-behavior: smooth;}
 .site .to-top svg {width: 18px; height: 18px;}
 
 /* ---------- Warm theme: dark contexts (over photos and deep-green blocks) ---------- */
-.site .site-header:not(.solid), .site .hero, .site .page-head, .site .banner, .site .pcard, .site .media-grid .m,
+.site .site-header, .site .hero, .site .page-head, .site .banner, .site .pcard, .site .media-grid .m,
 .site .cta, .site .site-footer, .site .lightbox, .site .about-img .badge, .site .dark-ctx {
   --text: #fbf8f1; --body-ink: rgba(251, 248, 241, 0.9); --muted: rgba(251, 248, 241, 0.84); --faint: rgba(251, 248, 241, 0.64);
   --line: rgba(255, 255, 255, 0.14); --line-2: rgba(255, 255, 255, 0.32); --surface: rgba(255, 255, 255, 0.07);
