@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session, selectinload
 
 from ..db import get_db
 from ..deps import log
-from ..models import Assignment, Event, Inquiry, PageView, Post, Service, TeamMember
-from ..schemas import AssignmentOut, EventOut, InquiryIn, PostOut, ServiceOut, TeamOut, TrackIn
+from ..models import Assignment, Event, Expertise, Inquiry, PageView, Post, Service
+from ..schemas import AssignmentOut, EventOut, ExpertiseOut, InquiryIn, PostOut, ServiceOut, TrackIn
 from .common import PUBLIC_KEYS, site_settings
 
 router = APIRouter(prefix="/public", tags=["public"])
@@ -20,7 +20,7 @@ def site(db: Session = Depends(get_db)):
     return {
         "settings": {k: s[k] for k in PUBLIC_KEYS},
         "services": [ServiceOut.model_validate(x) for x in db.scalars(select(Service).order_by(Service.sort_order))],
-        "team": [TeamOut.model_validate(x) for x in db.scalars(select(TeamMember).order_by(TeamMember.sort_order))],
+        "expertise": [ExpertiseOut.model_validate(x) for x in db.scalars(select(Expertise).order_by(Expertise.sort_order))],
         "assignments": [AssignmentOut.model_validate(x) for x in db.scalars(select(Assignment).order_by(Assignment.year.desc(), Assignment.id))],
     }
 

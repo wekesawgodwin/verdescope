@@ -76,12 +76,12 @@ class ServiceOut(ORM):
     image: str
 
 
-class TeamOut(ORM):
+class ExpertiseOut(ORM):
     id: int
-    name: str
-    role: str
-    bio: str
-    years: str
+    sector: str
+    icon: str
+    summary: str
+    disciplines: list[str]
 
 
 class AssignmentOut(ORM):

@@ -1,6 +1,7 @@
 """Seed an empty database.
 
-Company content (settings, services, team, assignments, posts, gallery) is always seeded on first run.
+Company content (settings, services, assignments, posts, gallery) is always seeded on first run.
+Sector expertise is seeded whenever its table is empty, so existing databases pick it up on deploy.
 Demo users, inquiries, projects and analytics are only added when SEED_DEMO=true.
 Run: python -m app.seed
 """
@@ -12,7 +13,7 @@ from sqlalchemy.orm import Session
 
 from .config import get_settings
 from .db import SessionLocal
-from .models import Activity, Announcement, Assignment, Document, Event, Inquiry, Media, OutboundEmail, PageView, Post, Project, Service, SiteSettings, TeamMember, User
+from .models import Activity, Announcement, Assignment, Document, Event, Expertise, Inquiry, Media, OutboundEmail, PageView, Post, Project, Service, SiteSettings, User
 from .routers.common import DEFAULT_SETTINGS
 from .security import hash_password
 
@@ -36,15 +37,33 @@ SERVICES = [
      ["Technical advisory and professional training", "Training in EIA, climate change, GIS, M&E, data collection (Kobo Toolbox & ODK), project management, RBM, WSP and IWRM", "Customised capacity-building programmes tailored to client needs"]),
 ]
 
-TEAM = [
-    ("Kiprotich", "Lead ESIA Expert", "B.Sc. Environmental Science. Community development, WASH, project and public health management, OHS. NEMA-registered Lead Expert.", "17+"),
-    ("Anis Yussuf Ibrahim", "Environmental & Climate Specialist / MEAL & Research Expert", "M.Sc. Environmental Governance; B.Sc. Environmental Management & Conservation. Safeguards, MEAL, GIS and research across the Horn of Africa.", "10+"),
-    ("Jacqueline Muthura", "Associate WASH Consultant, Capacity Building & Training", "B.Sc. Water & Environmental Engineering. Water Safety Planning, PRA and M&E in Kenya, Sudan, South Sudan and Ghana.", "10+"),
-    ("Dr. Ben Akala Musonye", "Environmental Economist", "D.Phil. and M.Phil. in Environmental Studies (Environmental Economics).", "15+"),
-    ("Dr. Solomon Nzyuko", "Associate Consultant / Sociologist", "Doctorate in Management; MA, BA Sociology. Strategic planning, programme M&E, fundraising and facilitation.", "20+"),
-    ("Dr. Eng. Joseph Kapkwany", "Water Engineer", "PhD Environmental Engineering; M.Sc. Water Engineering; B.Sc. Hydrology.", ""),
-    ("Dr. Wycliff Manyulu", "Public Health Specialist", "PhD Public Health; M.Sc. Epidemiology.", "15+"),
-    ("Zuber Ibrahim", "Civil Engineer", "Construction project management, site supervision, QA, contract administration. AutoCAD, Civil 3D, Primavera P6.", "7+"),
+# Technical expertise by sector, summarised from the key staff in the 2026 company profile.
+# Individual staff are intentionally not published.
+EXPERTISE = [
+    ("Environmental Assessment & Compliance", "leaf",
+     "NEMA-registered Lead Experts delivering statutory assessments and audits for public and private projects.",
+     ["EIA, ESIA, SEA and environmental audits", "Environmental science, management and conservation", "Environmental governance and safeguards", "Licensing and compliance with EMCA and NEMA"]),
+    ("Climate Change & Resilience", "globe",
+     "Climate risk screening, adaptation planning and environmental and social safeguards across Kenya and the Horn of Africa.",
+     ["Climate risk and vulnerability assessment", "Adaptation and resilience planning", "Environmental and social safeguards", "Carbon footprint and green growth"]),
+    ("Water Resources & WASH Engineering", "drop",
+     "Doctoral and degree-qualified water engineers and hydrologists for water supply, irrigation and catchment management.",
+     ["Water and environmental engineering", "Hydrology and integrated water resource management", "Water Safety Planning", "WASH in development and emergency settings"]),
+    ("Environmental & Resource Economics", "chart",
+     "Doctoral-level environmental economists bringing economic evidence to environmental and development decisions.",
+     ["Environmental and natural resource valuation", "Cost-benefit and socio-economic analysis", "Policy research and appraisal"]),
+    ("Social Development & Stakeholder Engagement", "people",
+     "Sociologists and community development specialists who put affected communities at the centre of project design.",
+     ["Sociology and community development", "Public participation for ESIA studies", "Participatory Rural Appraisal (PRA)", "Strategic planning and organisational development"]),
+    ("Public Health & Occupational Safety", "shield",
+     "Public health and epidemiology specialists supporting safe workplaces and health-sector compliance.",
+     ["Public health and epidemiology", "Occupational health and safety (OHS/EHS)", "Health facility environmental compliance"]),
+    ("Civil Engineering & Construction Supervision", "building",
+     "Civil engineers and project managers supervising infrastructure from design through construction.",
+     ["Construction project management", "Site supervision and quality assurance", "Contract administration and value engineering", "AutoCAD, Civil 3D and Primavera P6"]),
+    ("Research, MEAL & GIS", "map",
+     "Researchers, MEAL and GIS specialists turning field data into evidence for decision-makers.",
+     ["Monitoring, evaluation, accountability and learning (MEAL)", "GIS and remote sensing", "Surveys and data analytics (Kobo Toolbox, ODK)", "Capacity building and training"]),
 ]
 
 # Representative entries from the 82 assignments in the 2026 company profile
@@ -133,8 +152,6 @@ def seed_content(db: Session) -> None:
     db.add(SiteSettings(id=1, data=dict(DEFAULT_SETTINGS)))
     for i, (num, icon, title, image, summary, items) in enumerate(SERVICES):
         db.add(Service(num=num, icon=icon, title=title, image=image, summary=summary, items=items, sort_order=i))
-    for i, (name, role, bio, years) in enumerate(TEAM):
-        db.add(TeamMember(name=name, role=role, bio=bio, years=years, sort_order=i))
     for title, client, year, location, typ in ASSIGNMENTS:
         db.add(Assignment(title=title, client=client, year=year, location=location, type=typ))
     for p in POSTS:
@@ -216,6 +233,13 @@ def seed_demo(db: Session) -> None:
     ])
 
 
+def ensure_expertise(db: Session) -> None:
+    if db.scalar(select(func.count()).select_from(Expertise)) == 0:
+        for i, (sector, icon, summary, disciplines) in enumerate(EXPERTISE):
+            db.add(Expertise(sector=sector, icon=icon, summary=summary, disciplines=disciplines, sort_order=i))
+        log.info("Seeded sector expertise")
+
+
 def ensure_admin(db: Session) -> None:
     s = get_settings()
     if s.admin_email and s.admin_password and not db.scalar(select(User.id).where(func.lower(User.email) == s.admin_email.lower())):
@@ -233,6 +257,7 @@ def run() -> None:
             if s.seed_demo:
                 seed_demo(db)
                 log.info("Seeded demo users and data")
+        ensure_expertise(db)
         ensure_admin(db)
         db.commit()
 

@@ -8,8 +8,14 @@ def test_health(client):
 
 
 def test_public_site_content(client):
-    site = client.get("/api/public/site").json()
+    r = client.get("/api/public/site")
+    site = r.json()
     assert len(site["services"]) == 5
+    assert len(site["expertise"]) == 8 and all(x["disciplines"] for x in site["expertise"])
+    assert "team" not in site
+    # Individual staff must not be published anywhere in the public content
+    for name in ("Kiprotich", "Muthura", "Musonye", "Nzyuko", "Kapkwany", "Manyulu", "Zuber", "Anis"):
+        assert name not in r.text
     assert site["settings"]["phone1"] == "+254 725 318 476"
     assert "mail_signature" not in site["settings"]  # internal settings stay private
     posts = client.get("/api/public/posts").json()
