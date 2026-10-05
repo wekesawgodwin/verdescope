@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 import { Icon } from '../components/Icon';
 import { useInstall } from '../components/useInstall';
 import { api } from '../lib/api';
@@ -14,6 +15,7 @@ type Item = [path: string, label: string, icon: string];
 const GROUPS: [string, Item[]][] = [
   ['Main', [['', 'Dashboard', 'grid'], ['mail', 'Company Email', 'mail'], ['projects', 'My Projects', 'briefcase'], ['documents', 'Reports & Documents', 'file'], ['messages', 'Messages', 'message']]],
   ['Website content', [['posts', 'Blog Posts', 'edit'], ['gallery', 'Gallery', 'image'], ['services', 'Services', 'leaf']]],
+  ['Company', [['staff', 'Staff Directory', 'user']]],
   ['Administration', [['users', 'Users & Roles', 'people'], ['projects', 'Stakeholder Projects', 'briefcase'], ['settings', 'Settings', 'settings'], ['activity', 'Activity Log', 'activity']]],
   ['Account', [['account', 'My Account', 'user']]],
 ];
@@ -89,7 +91,7 @@ export default function Layout() {
               <button className="icon-btn" title="Sign out" aria-label="Sign out" onClick={() => { logout(); nav('/portal/login'); }}><Icon name="logout" /></button>
             </div>
           </header>
-          <main className="content"><Outlet /></main>
+          <main className="content"><ErrorBoundary resetKey={loc.pathname}><Outlet /></ErrorBoundary></main>
         </div>
       </div>
     </CountsCtx.Provider>

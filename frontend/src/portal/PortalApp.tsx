@@ -12,6 +12,7 @@ import Posts from './Posts';
 import ProjectsAdmin from './ProjectsAdmin';
 import ServicesAdmin from './ServicesAdmin';
 import Settings from './Settings';
+import StaffAdmin from './StaffAdmin';
 import { MyDocuments, MyMessages, MyProjects } from './Stakeholder';
 import { ToastProvider } from './ui';
 import Users from './Users';
@@ -41,6 +42,7 @@ export default function PortalApp() {
             <Route path="posts" element={<Guard path="posts"><Posts /></Guard>} />
             <Route path="gallery" element={<Guard path="gallery"><GalleryAdmin /></Guard>} />
             <Route path="services" element={<Guard path="services"><ServicesAdmin /></Guard>} />
+            <Route path="staff" element={<Guard path="staff"><StaffAdmin /></Guard>} />
             <Route path="users" element={<Guard path="users"><Users /></Guard>} />
             <Route path="projects" element={<Guard path="projects">{user?.role === 'admin' ? <ProjectsAdmin /> : <MyProjects />}</Guard>} />
             <Route path="settings" element={<Guard path="settings"><Settings /></Guard>} />
