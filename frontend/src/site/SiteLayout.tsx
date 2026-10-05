@@ -36,6 +36,15 @@ export default function SiteLayout() {
     api('/public/track', { method: 'POST', body: { page } }).catch(() => {});
   }, [loc.pathname, loc.hash]);
 
+  // Mobile menu open: lock page scroll and close on Escape
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [menu]);
+
   // Scroll-reveal for any .reveal element, including ones rendered after data loads
   useEffect(() => {
     const el = root.current!;
@@ -60,11 +69,14 @@ export default function SiteLayout() {
               <img src="/assets/img/brand/logo-emblem-light.png" alt="" />
               <span className="brand-text"><b>VERDE-<span>SCOPE</span></b><small>AFRICA LIMITED</small></span>
             </Link>
+            {menu && <div className="nav-backdrop" aria-hidden="true" onClick={() => setMenu(false)} />}
             <nav className={'nav' + (menu ? ' open' : '')} id="nav">
               {NAV.map(([to, label]) => <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => (isActive ? 'active' : '')}>{label}</NavLink>)}
               <Link to="/portal" className="btn-portal">Portal</Link>
             </nav>
-            <button className="burger" aria-label="Menu" aria-controls="nav" aria-expanded={menu} onClick={() => setMenu(!menu)}><Icon name={menu ? 'close' : 'menu'} /></button>
+            <button className={'burger' + (menu ? ' open' : '')} aria-label={menu ? 'Close menu' : 'Open menu'} aria-controls="nav" aria-expanded={menu} onClick={() => setMenu(!menu)}>
+              <Icon name={menu ? 'close' : 'menu'} />
+            </button>
           </div>
         </header>
 
