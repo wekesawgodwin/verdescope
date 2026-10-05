@@ -6,7 +6,7 @@ import { api, useApi } from '../lib/api';
 import type { SiteData } from '../lib/types';
 
 const SiteCtx = createContext<SiteData | null>(null);
-/** Public site content (settings, services, team, assignments); null while loading. */
+/** Public site content (settings, services, expertise, assignments); null while loading. */
 export const useSite = () => useContext(SiteCtx);
 
 const NAV: [string, string][] = [['/', 'Home'], ['/about', 'About'], ['/services', 'Services'], ['/gallery', 'Gallery'], ['/blog', 'Blog'], ['/contact', 'Contact']];

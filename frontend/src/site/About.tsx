@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { initials } from '../lib/format';
+import { Icon } from '../components/Icon';
 import { PageHead, useSite } from './SiteLayout';
 
 export default function About() {
@@ -30,14 +30,18 @@ export default function About() {
         <div className="vm reveal"><span className="eyebrow">03</span><h3>Purpose</h3><p>To provide innovative, science-based consultancy services that promote environmental sustainability, climate resilience and sustainable development through research, technology and professional expertise.</p></div>
       </div></div></section>
 
-      <section className="section"><div className="wrap">
-        <div className="sec-title"><span className="eyebrow">Our people</span><h2>Key <b>Experts</b></h2></div>
+      <section className="section" id="expertise"><div className="wrap">
+        <div className="sec-title row">
+          <div><span className="eyebrow">Across sectors</span><h2>Technical <b>Expertise</b></h2></div>
+          <p style={{ maxWidth: 460, margin: 0 }}>A multidisciplinary pool of doctoral, master's and degree-qualified specialists, each with between 7 and 20+ years of experience, assembled into the right team for every assignment.</p>
+        </div>
         <div className="grid g4">
-          {site?.team.map((t) => (
-            <div className="team-card reveal" key={t.id}>
-              <div className="avatar">{initials(t.name)}</div>
-              {t.years && <span className="yrs">{t.years} yrs</span>}
-              <h3>{t.name}</h3><span className="role">{t.role}</span><p>{t.bio}</p>
+          {site?.expertise.map((x) => (
+            <div className="expertise-card reveal" key={x.id}>
+              <div className="ico"><Icon name={x.icon} /></div>
+              <h3>{x.sector}</h3>
+              <p>{x.summary}</p>
+              <ul>{x.disciplines.map((d) => <li key={d}>{d}</li>)}</ul>
             </div>
           ))}
         </div>

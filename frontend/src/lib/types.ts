@@ -9,9 +9,9 @@ export interface PublicSettings {
 export interface SiteSettings extends PublicSettings { mail_from: string; mail_signature: string; _email_provider?: string; _mail_from_env?: string }
 
 export interface Service { id: number; num: string; icon: string; title: string; summary: string; items: string[]; image: string }
-export interface TeamMember { id: number; name: string; role: string; bio: string; years: string }
+export interface Expertise { id: number; sector: string; icon: string; summary: string; disciplines: string[] }
 export interface Assignment { id: number; title: string; client: string; year: number; location: string; type: string }
-export interface SiteData { settings: PublicSettings; services: Service[]; team: TeamMember[]; assignments: Assignment[] }
+export interface SiteData { settings: PublicSettings; services: Service[]; expertise: Expertise[]; assignments: Assignment[] }
 
 export interface Post {
   id: number; slug: string; title: string; category: string; author: string; date: string;
