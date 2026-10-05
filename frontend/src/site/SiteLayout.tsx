@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 import { Icon } from '../components/Icon';
 import { useInstall } from '../components/useInstall';
 import { api, useApi } from '../lib/api';
@@ -80,7 +81,7 @@ export default function SiteLayout() {
           </div>
         </header>
 
-        <Outlet />
+        <ErrorBoundary resetKey={loc.pathname}><Outlet /></ErrorBoundary>
 
         <footer className="site-footer">
           <div className="wrap foot-grid">

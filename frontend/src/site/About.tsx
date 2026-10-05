@@ -36,12 +36,12 @@ export default function About() {
           <p style={{ maxWidth: 460, margin: 0 }}>A multidisciplinary pool of doctoral, master's and degree-qualified specialists, each with between 7 and 20+ years of experience, assembled into the right team for every assignment.</p>
         </div>
         <div className="grid g4">
-          {site?.expertise.map((x) => (
+          {(site?.expertise ?? []).map((x) => (
             <div className="expertise-card reveal" key={x.id}>
               <div className="ico"><Icon name={x.icon} /></div>
               <h3>{x.sector}</h3>
               <p>{x.summary}</p>
-              <ul>{x.disciplines.map((d) => <li key={d}>{d}</li>)}</ul>
+              <ul>{(x.disciplines ?? []).map((d) => <li key={d}>{d}</li>)}</ul>
             </div>
           ))}
         </div>
